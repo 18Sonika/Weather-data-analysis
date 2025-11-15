@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data Analysis Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>🌦️ Weather Data Analysis Dashboard</h1>
+
+    <form method="POST">
+        <label for="year">Select Year:</label>
+        <select name="year" id="year">
+            <option value="All">All</option>
+            {% for y in years %}
+                <option value="{{ y }}" {% if y == selected_year|int %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="month">Select Month:</label>
+        <select name="month" id="month">
+            <option value="All">All</option>
+            {% for m in months %}
+                <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ m }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <section class="stats">
+        <h2>📊 Summary Statistics</h2>
+        <p><strong>Average Temperature:</strong> {{ avg_temp }} °C</p>
+        <p><strong>Maximum Temperature:</strong> {{ max_temp }} °C</p>
+        <p><strong>Minimum Temperature:</strong> {{ min_temp }} °C</p>
+        <p><strong>Total Rainfall:</strong> {{ total_rain }} mm</p>
+    </section>
+
+    <section class="plots">
+        <h2>🌡️ Temperature Trend</h2>
+        {{ temp_plot|safe }}
+
+        <h2>☔ Rainfall Trend</h2>
+        {{ rain_plot|safe }}
+
+        <h2>🌞 Max vs Min Temperature</h2>
+        {{ maxmin_plot|safe }}
+
+        <h2>📉 Rainfall vs Temperature Correlation</h2>
+        {{ corr_plot|safe }}
+
+        <h2>📆 Monthly Average Temperature</h2>
+        {{ monthly_avg_plot|safe }}
+
+        <h2>💧 Rainfall Distribution by Month</h2>
+        {{ rain_pie_plot|safe }}
+    </section>
+</body>
+</html>
